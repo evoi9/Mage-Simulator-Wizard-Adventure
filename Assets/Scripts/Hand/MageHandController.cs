@@ -15,16 +15,8 @@ public class MageHandController : MonoBehaviour {
 	}
 
 	bool IsGestureInFireBallBegin(HandModel hand){
-		float theta = 20.0f;
-		bool a = HandRecog.IsIndexFingerTipBent (hand, theta);
-		bool b = HandRecog.IsMiddleFingerTipBent (hand, theta);
-		//Debug.Log ("Middle Finger Bent: " + b );
-		bool c = HandRecog.IsRingFingerTipBent (hand, theta);
-		bool d = HandRecog.IsLittleFingerTipBent (hand, theta);
 
-		bool t = HandRecog.IsThumbTipBent (hand, theta);
-
-		return HandRecog.IsPalmFacingUpwards (hand, 20.0f) && a && b && c && t;
+		return HandRecog.IsPalmFacingUpwards (hand, 20.0f) && HandRecog.IsHandClenching (hand, 20.0f);
 
 	}
 		
