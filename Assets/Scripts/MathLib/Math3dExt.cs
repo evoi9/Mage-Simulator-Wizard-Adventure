@@ -35,6 +35,31 @@ public class Math3dExt : MonoBehaviour {
 
 	}
 
+	public static bool VectorEqual(Vector3 one, Vector3 two, Vector3 error){
 
+		Vector3 diff = two - one;
+
+		if (Math.Abs (diff.x) > Math.Abs (error.x))
+			return false;
+
+		if (Math.Abs (diff.y) > Math.Abs (error.y))
+			return false;
+
+		if (Math.Abs (diff.z) > Math.Abs (error.z))
+			return false;
+
+		return true;
+	}
+
+	public static bool VectorEqual(Vector3 one, Vector3 two, float error){
+
+		return VectorEqual (one, two, new Vector3 (error, error, error));
+
+	}
+
+	public static bool VectorEqual(Vector3 one, Vector3 two){
+
+		return VectorEqual (one, two, 0.01f);
+	}
 
 }
