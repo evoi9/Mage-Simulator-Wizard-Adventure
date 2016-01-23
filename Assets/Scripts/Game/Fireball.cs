@@ -8,7 +8,7 @@ public class FireBall : MonoBehaviour {
 	private GameObject fireBallPrefab;
 	private int count;
 
-	public bool IsReleased = false;
+	private bool IsReleased = false;
 
 	// Use this for initialization
 	void Start () {
@@ -29,14 +29,12 @@ public class FireBall : MonoBehaviour {
 	}
 
 
-	public void Grow(float factor){
+	public void Grow(float deltaTime){
 		//ps = gameObject.GetComponent<ParticleSystem>();
 		//ps.emissionRate.Equals (50f);
 		ps = gameObject.GetComponent<ParticleSystem>();
 
 		if (ps) {
-
-
 			//			ps.startSize = 0.1f;
 			//			while (ps.startSize < 1.5*factor) {
 			//				ps.startSize += 0.001f;
@@ -44,12 +42,19 @@ public class FireBall : MonoBehaviour {
 			//			}
 			//			//Debug.Log (factor);
 			//			ps.maxParticles += 100;
-			ps.startSize = 1f*factor;
+
+			if(ps.startSize <= 0.35f)
+				ps.startSize += deltaTime * 0.06f;
 			//ps.maxParticles = (int) 1000*factor;
-			gameObject.transform.localScale = new Vector3 (0.25f *factor, 0.25f*factor, 0.25f*factor);
-			GetComponent<SphereCollider>().radius = 1.5f *factor;
 
+			if (gameObject.transform.localScale.magnitude <= 0.3f) {
 
+				gameObject.transform.localScale += new Vector3 ( deltaTime * 0.04f,  deltaTime *0.04f,  deltaTime*0.04f);
+				GetComponent<SphereCollider>().radius = gameObject.transform.localScale.magnitude;
+
+			}
+		
+		
 		}
 
 		//gameObject.transform.localScale += new Vector3 (1*factor,1*factor,1*factor);
@@ -60,21 +65,17 @@ public class FireBall : MonoBehaviour {
 	}
 
 
-	public void Release(Vector3 dir, float magnitude, float gravityAmend){
+	public void Release(Vector3 dir, float speed){
 
 		gameObject.transform.LookAt (dir);
-		Rigidbody rigidBody = gameObject.GetComponent<Rigidbody>();
+		Rigidbody rigidBody = gameObject.GetComponent<Rigidbody> ();
 
-		rigidBody.AddForce(dir * magnitude);
+		rigidBody.useGravity = false;
 
-		//Debug.Log ("pinched");
-		//Rigidbody rigidBody = currentFireBall.GetComponent<Rigidbody>();
-
-		//rigidBody.useGravity = true;
+		rigidBody.velocity = dir * speed;
 
 		//Vector3 amended = Vector3.Scale (Physics.gravity, new Vector3 (gravityAmend, gravityAmend, gravityAmend));
-
-		rigidBody.AddForce (gravityAmend * Physics.gravity);
+	
 
 		//Vector3 gravityAmend = Vector3.Scale (Physics.gravity, new Vector3 (0.5f, 0.5f, 0.5f));
 		//rigidBody.AddForce (gravityAmend, ForceMode.Acceleration); 
