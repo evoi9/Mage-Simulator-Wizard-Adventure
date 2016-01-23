@@ -67,6 +67,21 @@ public class HandRecog : MonoBehaviour {
 
 	}
 
+	public static bool IsHandClenching(HandModel hand, float minAngle){
+
+		bool a = HandRecog.IsIndexFingerTipBent (hand, minAngle);
+		bool b = HandRecog.IsMiddleFingerTipBent (hand, minAngle);
+		//Debug.Log ("Middle Finger Bent: " + b );
+		bool c = HandRecog.IsRingFingerTipBent (hand, minAngle);
+		//bool d = HandRecog.IsLittleFingerTipBent (hand, minAngle);
+
+		bool t = HandRecog.IsThumbTipBent (hand, minAngle);
+
+		return a && b && c && t;
+
+
+	}
+
 	public static bool IsFingerBentWithinAngle(HandModel hand, int fingerIndex, int boneIndex, float minAngle, float maxAngle){
 
 		FingerModel finger = hand.fingers [fingerIndex];
