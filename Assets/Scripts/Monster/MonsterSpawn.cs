@@ -4,16 +4,24 @@ using System.Collections;
 public class MonsterSpawn : MonoBehaviour {
 
 	public GameObject monsterPrefab;
-
-	// Use this for initialization
-	void Start () {
-		GameObject monster = Instantiate (monsterPrefab, new Vector3 (0, 0, 2.6f), Quaternion.Euler(0, 180, 0)) as GameObject;
-	}
+	float totalTime = 0;
+	int n = 1;
+	bool hasRan = false;
 
 	// Update is called once per frame
-	void Update () {
-
+	void Update(){
+		Debug.Log ("total time " + totalTime);
+		Debug.Log ("enemies spawned " + n);
+		totalTime = Time.fixedTime;
+		if ((totalTime >= n * 3 - 0.1) && (totalTime <= n * 3 + 0.1) && hasRan == false)
+		{
+			GameObject.Instantiate(monsterPrefab, transform.position, Quaternion.identity);
+			hasRan = true;
+			n++;
+		}
+		else
+		{
+			hasRan = false;
+		}
 	}
-
-
 }
