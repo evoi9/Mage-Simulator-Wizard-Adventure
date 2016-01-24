@@ -48,6 +48,12 @@ public class HandRecog : MonoBehaviour {
 		return false;
 
 	}
+
+	public Vector3 MiddleBetweenPalms(HandModel handOne, HandModel handTwo){
+
+		return Math3dExt.MidPosition (handOne.GetPalmPosition (), handTwo.GetPalmPosition ());
+
+	}
 		
 	public static float DistanceBetweenPalms(HandModel handOne, HandModel handTwo){
 

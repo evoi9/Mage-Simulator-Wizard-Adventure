@@ -12,11 +12,18 @@ public class MageThunderHandController : MageHandController {
 	public float palmDirMinAngle = 120.0f;
 	public float handClenchingMinAngle = 15.0f;
 
-	public GameObject thunderBoltPrefab;
+	public ThunderBolt thunderBoltPrefab;
+
+	private ThunderBolt currentThunderBolt;
+
+	private ThunderBolt [] bolts;
+
 
 	protected void Start () {
 
 		base.Start ();
+
+		bolts = new ThunderBolt[5];
 	}
 
 	bool IsReadyToCastBolts(HandModel leftHand, HandModel rightHand){
@@ -27,9 +34,21 @@ public class MageThunderHandController : MageHandController {
 			HandRecog.IsHandClenchingStrict (leftHand, handClenchingMinAngle) && HandRecog.IsHandClenchingStrict (rightHand, handClenchingMinAngle);
 	}
 
-	void CastBolts(HandModel LeftHand, HandModel rightHand ){
+	void CastBolts(HandModel leftHand, HandModel rightHand ){
 
-		
+
+		if (!IsCastingStarted) {
+
+			Vector3 middle = leftHand.GetPalmPosition () + rightHand.GetPalmPosition ();
+
+			currentThunderBolt = GameObject.Instantiate (thunderBoltPrefab, middle, gameObject.transform.rotation) as ThunderBolt;
+			currentThunderBolt.SetPosition (leftHand.GetPalmPosition (), rightHand.GetPalmPosition ());
+
+			IsCastingStarted = true;
+		}
+
+		if (currentThunderBolt)
+			currentThunderBolt.SetPosition (leftHand.GetPalmPosition (), rightHand.GetPalmPosition ());
 
 	}
 
@@ -45,6 +64,7 @@ public class MageThunderHandController : MageHandController {
 
 			if (IsReadyToCastBolts (leftHand, rightHand)) {
 
+				CastBolts (leftHand, rightHand);
 				//Debug.Log ("yeah");
 			}
 
