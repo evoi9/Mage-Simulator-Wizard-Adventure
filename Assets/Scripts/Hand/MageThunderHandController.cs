@@ -34,6 +34,47 @@ public class MageThunderHandController : MageHandController {
 			HandRecog.IsHandClenchingStrict (leftHand, handClenchingMinAngle) && HandRecog.IsHandClenchingStrict (rightHand, handClenchingMinAngle);
 	}
 
+	bool IsReadyToRelaseBolts(HandModel leftHand, HandModel rightHand){
+
+		int counter = 0;
+
+		if (!HandRecog.IsIndexFingerTipBent (leftHand, handClenchingMinAngle)) {
+			
+			counter++;
+		}
+
+		if (!HandRecog.IsMiddleFingerTipBent (leftHand, handClenchingMinAngle)) {
+
+			counter++;
+		}
+
+		if (!HandRecog.IsRingFingerTipBent (leftHand, handClenchingMinAngle)) {
+
+			counter++;
+		}
+
+		if (!HandRecog.IsIndexFingerTipBent (rightHand, handClenchingMinAngle)) {
+
+			counter ++;
+		}
+
+		if (!HandRecog.IsMiddleFingerTipBent (rightHand, handClenchingMinAngle)) {
+
+			counter ++;
+		}
+
+		if (!HandRecog.IsRingFingerTipBent(rightHand, handClenchingMinAngle)){
+
+			counter++;
+		}
+
+		if (counter >= 3)
+			return true;
+
+		return false;
+
+	}
+
 	void CastBolts(HandModel leftHand, HandModel rightHand ){
 
 
@@ -54,16 +95,17 @@ public class MageThunderHandController : MageHandController {
 
 	void UpdateBolts(HandModel leftHand, HandModel rightHand){
 
-		if (currentThunderBolt)
+		if (currentThunderBolt && IsCastingStarted)
 			currentThunderBolt.SetPosition (leftHand.GetPalmPosition (), rightHand.GetPalmPosition ());
 	}
 
 	void ReleaseBolts(HandModel leftHand, HandModel rightHand){
 
-		if (currentThunderBolt) {
+		if (currentThunderBolt ) {
 			currentThunderBolt.Release ((leftHand.GetPalmDirection () + rightHand.GetPalmDirection ()).normalized, 5.0f);
 			IsCastingStarted = false;
 			spellControl.ReleaseCastingControl ();
+			currentThunderBolt = null;
 		}
 	}
 
@@ -87,13 +129,18 @@ public class MageThunderHandController : MageHandController {
 		if (rightHand && leftHand) {
 
 			if (IsReadyToCastBolts (leftHand, rightHand)) {
-
 				CastBolts (leftHand, rightHand);
-				UpdateBolts (leftHand, rightHand);
-	
-			} else {
-				ReleaseBolts (leftHand, rightHand);
+
 			}
+				
+
+		
+			if (IsReadyToRelaseBolts (leftHand, rightHand))
+				ReleaseBolts (leftHand, rightHand);
+
+//			if (!HandRecog.PalmsFacingEachOther (handController, leftHand, rightHand, palmDirMinAngle))
+//				CancelCasting ();
+			UpdateBolts (leftHand, rightHand);
 
 		} else {
 
@@ -102,4 +149,6 @@ public class MageThunderHandController : MageHandController {
 		}
 	
 	}
+
+
 }

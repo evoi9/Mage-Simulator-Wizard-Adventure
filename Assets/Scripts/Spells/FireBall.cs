@@ -2,13 +2,12 @@
 using System.Collections;
 using Leap;
 
-public class FireBall : MonoBehaviour {
+public class FireBall : SpellBase {
 
 	private ParticleSystem ps;
 	private GameObject fireBallPrefab;
 	private int count;
 
-	private bool IsReleased = false;
 
 	// Use this for initialization
 	void Start () {
@@ -75,7 +74,6 @@ public class FireBall : MonoBehaviour {
 
 		//Vector3 amended = Vector3.Scale (Physics.gravity, new Vector3 (gravityAmend, gravityAmend, gravityAmend));
 	
-
 		//Vector3 gravityAmend = Vector3.Scale (Physics.gravity, new Vector3 (0.5f, 0.5f, 0.5f));
 		//rigidBody.AddForce (gravityAmend, ForceMode.Acceleration); 
 		gameObject.AddComponent<TimedDestroy>();
