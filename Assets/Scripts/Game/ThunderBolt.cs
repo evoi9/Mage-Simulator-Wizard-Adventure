@@ -49,14 +49,6 @@ public class ThunderBolt : MonoBehaviour {
 
 		electricity.SetPoints (array);
 
-		//from.position.Set (pole1.x, pole1.y, pole1.z);
-
-		//to.position.Set (pole2.x, pole2.y, pole2.z);
-
-
-		//to.transform.position.x = pole2.x;
-		//to.transform.position.y = pole2.y;
-		//to.transform.position.z = pole2.z;
 	}
 
 		
@@ -74,8 +66,6 @@ public class ThunderBolt : MonoBehaviour {
 		//Vector3 gravityAmend = Vector3.Scale (Physics.gravity, new Vector3 (0.5f, 0.5f, 0.5f));
 		//rigidBody.AddForce (gravityAmend, ForceMode.Acceleration); 
 		gameObject.AddComponent<TimedDestroy>();
-
-
 
 
 
