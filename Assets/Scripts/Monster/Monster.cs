@@ -4,7 +4,6 @@ using System.Collections;
 public class Monster : MonoBehaviour {
 
 	private int monstersHit = 0;
-	private bool inState = false;
 
 	// Use this for initialization
 	void Start () {
@@ -24,13 +23,8 @@ public class Monster : MonoBehaviour {
 			Debug.Log ("hit by player!");
 			Destroy(other.gameObject);
 			monstersHit++;
-
-			if (animator.GetCurrentAnimatorStateInfo (0).IsName ("creature1GetHit"))
-				inState = true;
-			else if (inState) {
-				Destroy (gameObject);
-				inState = false;
-			}
+			gameObject.AddComponent<TimedDestroy>();
+			
 		}
 	}
 }
