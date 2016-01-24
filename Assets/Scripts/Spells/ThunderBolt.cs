@@ -15,7 +15,7 @@ public class ThunderBolt : SpellBase {
 	private Vector3 releaseDirection;
 	private float releaseSpeed;
 
-	private CapsuleCollider collider;
+	private SphereCollider collider;
 
 
 	void Awake(){
@@ -26,11 +26,9 @@ public class ThunderBolt : SpellBase {
 	void Start () {
 		
 
-		collider = gameObject.AddComponent<CapsuleCollider> ();
+		collider = gameObject.AddComponent<SphereCollider> ();
+		collider.radius = 0;
 		collider.center = Vector3.zero;
-		collider.height = 0;
-		collider.radius = 0.05f;
-		collider.direction = 2;
 
 
 	}	
@@ -57,8 +55,8 @@ public class ThunderBolt : SpellBase {
 
 			electricity.SetPoints (array);
 			collider.transform.LookAt (array [0]);
-			collider.height = (array [1] - array [0]).magnitude * 0.95f;
-		
+			collider.radius = (array [1] - array [0]).magnitude/2.0f;
+			gameObject.transform.position = Math3dExt.MidPosition (array[0], array[1]);
 
 
 
@@ -73,6 +71,8 @@ public class ThunderBolt : SpellBase {
 		array [1] = pole2;
 
 		electricity.SetPoints (array);
+
+		gameObject.transform.position = Math3dExt.MidPosition (pole1, pole2);
 
 	}
 
@@ -102,14 +102,7 @@ public class ThunderBolt : SpellBase {
 
 	void OnCollisionEnter(Collision other)
 	{
-		Debug.Log ("a");
-		//		if(other.gameObject.name == "Cylinder")
-		//		{
-		//			Debug.Log ("fireball hit");
-		//			Destroy(other.gameObject);
-		//			count = count+1;
-		//		}
-		//
-		//		Destroy (gameObject);
+
+
 	}
 }

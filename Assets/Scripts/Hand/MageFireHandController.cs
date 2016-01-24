@@ -46,7 +46,7 @@ public class MageFireHandController : MageHandController {
 
 			currentFireBall = GameObject.Instantiate (fireBallPrefab, GetFireBallSpawnPosition (hand, fireBallSpawnLocation), hand.gameObject.transform.rotation) as FireBall;
 
-			currentFireBall.transform.SetParent (handController.transform);
+			//currentFireBall.transform.SetParent (handController.transform);
 		}
 			
 	}
