@@ -38,7 +38,7 @@ public class MageFireHandController : MageHandController {
 
 	void CastFireBall(HandModel hand){
 		
-		if (!IsCastingStarted && hand.GetLeapHand().Confidence >= confidenceLevel) {
+		if (!IsCastingStarted && hand.GetLeapHand().Confidence >= confidenceLevel && !spellControl.SpellCasting()) {
 
 			spellControl.SpellCasting ();
 
@@ -93,7 +93,7 @@ public class MageFireHandController : MageHandController {
 		HandModel leftHand = HandRecog.FindFirstLeftHand (hands);
 
 
-		if (rightHand ) {
+		if (rightHand) {
 
 			if (IsReadyToCastFireBall (rightHand)) {
 				
@@ -118,8 +118,15 @@ public class MageFireHandController : MageHandController {
 			}
 
 			UpdateFireBall (leftHand);
-		}
+
+		} else {
 			
-	
+			if(currentFireBall)
+				Destroy (currentFireBall.gameObject);
+			//currentFireBall = null;
+			IsCastingStarted = false;
+			spellControl.ReleaseCastingControl ();
+			
+		}
 	}
 }

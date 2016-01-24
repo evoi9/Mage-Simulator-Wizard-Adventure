@@ -37,7 +37,7 @@ public class MageThunderHandController : MageHandController {
 	void CastBolts(HandModel leftHand, HandModel rightHand ){
 
 
-		if (!IsCastingStarted) {
+		if (!IsCastingStarted && !spellControl.SpellCasting()) {
 
 			Vector3 middle = leftHand.GetPalmPosition () + rightHand.GetPalmPosition ();
 
@@ -45,13 +45,37 @@ public class MageThunderHandController : MageHandController {
 			currentThunderBolt.SetPosition (leftHand.GetPalmPosition (), rightHand.GetPalmPosition ());
 
 			IsCastingStarted = true;
+			spellControl.GrabCastingControl ();
 		}
 
-		if (currentThunderBolt)
-			currentThunderBolt.SetPosition (leftHand.GetPalmPosition (), rightHand.GetPalmPosition ());
+	
 
 	}
 
+	void UpdateBolts(HandModel leftHand, HandModel rightHand){
+
+		if (currentThunderBolt)
+			currentThunderBolt.SetPosition (leftHand.GetPalmPosition (), rightHand.GetPalmPosition ());
+	}
+
+	void ReleaseBolts(HandModel leftHand, HandModel rightHand){
+
+		if (currentThunderBolt) {
+			currentThunderBolt.Release ((leftHand.GetPalmDirection () + rightHand.GetPalmDirection ()).normalized, 5.0f);
+			IsCastingStarted = false;
+			spellControl.ReleaseCastingControl ();
+		}
+	}
+
+	void CancelCasting(){	
+
+		if (currentThunderBolt)
+			Destroy (currentThunderBolt.gameObject);
+
+		IsCastingStarted = false;
+		spellControl.ReleaseCastingControl ();
+
+	}
 	
 	// Update is called once per frame
 	protected void Update () {
@@ -65,8 +89,15 @@ public class MageThunderHandController : MageHandController {
 			if (IsReadyToCastBolts (leftHand, rightHand)) {
 
 				CastBolts (leftHand, rightHand);
-				//Debug.Log ("yeah");
+				UpdateBolts (leftHand, rightHand);
+	
+			} else {
+				ReleaseBolts (leftHand, rightHand);
 			}
+
+		} else {
+
+			CancelCasting ();
 
 		}
 	
