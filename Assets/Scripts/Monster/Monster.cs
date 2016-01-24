@@ -4,7 +4,6 @@ using System.Collections;
 public class Monster : MonoBehaviour {
 
 	private int monstersHit = 0;
-
 	//public GameObject monsterPrefab;
 	public Vector3 initSpawn;
 	Vector3 currPos;
@@ -18,12 +17,15 @@ public class Monster : MonoBehaviour {
 	void Start () {
 
 		initSpawn = new Vector3 (240, 0, 40); //(0, 0, 2.6f);
-		Vector3 currPos = transform.position;
-		targetPos = GameObject.Find("FPSController").transform.position;
 		System.Random rand = new System.Random ();
 		float z = rand.Next ((int)initSpawn.z - 10, (int)initSpawn.z + 11);
 		float x = rand.Next ((int)initSpawn.x - 25, (int)initSpawn.x + 26);
 		Vector3 spawnPt = new Vector3 (x, 0, z);
+
+		gameObject.transform.position = spawnPt;
+
+		currPos = transform.position;
+		targetPos = GameObject.Find("FPSController").transform.position;
 
 		//GameObject monster = Instantiate (monsterPrefab, initSpawn, Quaternion.Euler(0, 180, 0)) as GameObject;
 		//cube = GameObject.Instantiate(monsterPrefab, initSpawn, Quaternion.identity) as GameObject;
