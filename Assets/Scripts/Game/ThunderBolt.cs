@@ -27,14 +27,7 @@ public class ThunderBolt : MonoBehaviour {
 
 	public void SetPosition(Vector3 pole1, Vector3 pole2){
 
-		from.transform.position.x = pole1.x;
-		from.transform.position.y = pole1.y;
-		from.transform.position.z = pole1.z;
 
-
-		to.transform.position.x = pole2.x;
-		to.transform.position.y = pole2.y;
-		to.transform.position.z = pole2.z;
 
 	}
 		
