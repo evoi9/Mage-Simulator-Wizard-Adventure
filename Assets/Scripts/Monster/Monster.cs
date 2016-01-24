@@ -42,7 +42,13 @@ public class Monster : MonoBehaviour {
 		currPos = transform.position;
 		targetPos = GameObject.Find("FPSController").transform.position;
 		transform.LookAt (targetPos);	// make sure monster looks at player before attacking
-		r.velocity = transform.forward*2.0f;
+
+		if (monstersHit > 0) {
+			r.velocity = Vector3.zero;
+		} else {
+			r.velocity = transform.forward * 2.0f;
+		}
+	
 
 		if (currPos.x <= (targetPos.x + 2.0f) && currPos.x >= (targetPos.x - 2.0f)
 			&& currPos.z <= (targetPos.z + 2.0f) && currPos.z >= (targetPos.z - 2.0f)) {
@@ -66,11 +72,13 @@ public class Monster : MonoBehaviour {
 	void OnCollisionEnter(Collision other) {
 
 		if(other.gameObject.tag == "Spell") {
+			monstersHit++;
 			Animator animator = GetComponent<Animator>();
 			animator.SetTrigger("HitByPlayer");
 			Debug.Log ("hit by player!");
+			r.velocity = Vector3.zero;
 			Destroy(other.gameObject);
-			monstersHit++;
+
 			gameObject.AddComponent<TimedDestroy>();
 			
 		}
