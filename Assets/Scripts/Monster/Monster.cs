@@ -16,14 +16,14 @@ public class Monster : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		initSpawn = new Vector3 (240, 0, 40); //(0, 0, 2.6f);
-		System.Random rand = new System.Random ();
-		float z = rand.Next ((int)initSpawn.z - 10, (int)initSpawn.z + 11);
-		float x = rand.Next ((int)initSpawn.x - 25, (int)initSpawn.x + 26);
-		Vector3 spawnPt = new Vector3 (x, 0, z);
-
-		gameObject.transform.position = spawnPt;
-
+		//initSpawn = new Vector3 (240, 0, 40); //(0, 0, 2.6f);
+		//System.Random rand = new System.Random ();
+		//float z = rand.Next ((int)initSpawn.z - 10, (int)initSpawn.z + 11);
+		//float x = rand.Next ((int)initSpawn.x - 25, (int)initSpawn.x + 26);
+		//Vector3 spawnPt = new Vector3 (x, 0, z);
+		//Debug.Log ("spawnPt" + spawnPt);
+		gameObject.transform.position = initSpawn;
+		//Debug.Log ("gameObject.transform.position" + gameObject.transform.position);
 		currPos = transform.position;
 		targetPos = GameObject.Find("FPSController").transform.position;
 
@@ -38,6 +38,8 @@ public class Monster : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		targetPos = GameObject.Find("FPSController").transform.position;
+
 		currPos = gameObject.transform.position;
 		if (currPos.x <= (targetPos.x + 2.0f) && currPos.x >= (targetPos.x - 2.0f)
 			&& currPos.z <= (targetPos.z + 2.0f) && currPos.z >= (targetPos.z - 2.0f)) {
@@ -45,10 +47,16 @@ public class Monster : MonoBehaviour {
 		}
 
 		if (check != true) {
+			distance = Mathf.Sqrt(Mathf.Pow((currPos.x-targetPos.x),2.0f)+Mathf.Pow((currPos.z-targetPos.z),2.0f));
+			speed = distance / time;
+
+			speedX = speed * (targetPos.x - currPos.x) / distance;
+			speedZ = speed * (targetPos.z - currPos.z) / distance;
 			transform.position += new Vector3 (speedX, 0, speedZ);
 		}
+		//Debug.Log ("a");
+		gameObject.transform.LookAt (targetPos);
 	}
-
 	void OnCollisionEnter(Collision other) {
 
 		if(other.gameObject.tag == "Spell") {
