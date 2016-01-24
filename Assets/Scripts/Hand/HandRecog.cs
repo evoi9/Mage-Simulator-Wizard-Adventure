@@ -67,18 +67,29 @@ public class HandRecog : MonoBehaviour {
 
 	}
 
-	public static bool IsHandClenching(HandModel hand, float minAngle){
+	public static bool IsHandClenchingStrict(HandModel hand, float minAngle){
 
 		bool a = HandRecog.IsIndexFingerTipBent (hand, minAngle);
 		bool b = HandRecog.IsMiddleFingerTipBent (hand, minAngle);
 		//Debug.Log ("Middle Finger Bent: " + b );
 		bool c = HandRecog.IsRingFingerTipBent (hand, minAngle);
-		//bool d = HandRecog.IsLittleFingerTipBent (hand, minAngle);
+		bool d = HandRecog.IsLittleFingerTipBent (hand, minAngle);
 
 		bool t = HandRecog.IsThumbTipBent (hand, minAngle);
 
-		return a && b && c && t;
+		return a && b && c && t && d;
 
+	}
+
+	public static bool IsHandClenchingNonStrict(HandModel hand, float minAngle){
+
+
+		bool a = HandRecog.IsIndexFingerTipBent (hand, minAngle);
+		bool b = HandRecog.IsMiddleFingerTipBent (hand, minAngle);
+		//Debug.Log ("Middle Finger Bent: " + b );
+		bool c = HandRecog.IsRingFingerTipBent (hand, minAngle);
+
+		return a && b && c;
 
 	}
 
@@ -238,6 +249,21 @@ public class HandRecog : MonoBehaviour {
 		return angle;
 
 	}
+
+	public static bool PalmsFacingEachOther(HandController handController, HandModel leftHand, HandModel rightHand, float minAngle){
+
+		float angle = AngleBetweenPalmsNormals (leftHand, rightHand,
+			handController.transform.forward);
+
+		//Debug.Log (angle);
+
+		if (Math.Abs (angle) >= minAngle) {
+			return true;
+		}
+
+		return false;
+	}
+
 
 	public static float AngleBetweenPalmsDirections(HandModel leftHand, HandModel rightHand, Vector3 projectPlane){
 

@@ -42,14 +42,13 @@ public class FireBall : MonoBehaviour {
 			//			}
 			//			//Debug.Log (factor);
 			//			ps.maxParticles += 100;
-
 			if(ps.startSize <= 0.35f)
-				ps.startSize += deltaTime * 0.06f;
+				ps.startSize += deltaTime * 0.1f;
 			//ps.maxParticles = (int) 1000*factor;
 
 			if (gameObject.transform.localScale.magnitude <= 0.3f) {
 
-				gameObject.transform.localScale += new Vector3 ( deltaTime * 0.04f,  deltaTime *0.04f,  deltaTime*0.04f);
+				gameObject.transform.localScale += new Vector3 ( deltaTime * 0.07f,  deltaTime *0.07f,  deltaTime*0.07f);
 				GetComponent<SphereCollider>().radius = gameObject.transform.localScale.magnitude;
 
 			}

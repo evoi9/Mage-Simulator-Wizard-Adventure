@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MageFireHandController : MonoBehaviour {
+public class MageFireHandController : MageHandController {
 
 
-	private HandController handController;
 
 	public FireBall fireBallPrefab;
+	private FireBall currentFireBall;
 
 	public float fireBallSpawnLocation = 0.15f;
 
@@ -14,26 +14,15 @@ public class MageFireHandController : MonoBehaviour {
 
 	public float palmFacingUpAngle = 20.0f;
 
-	public float confidenceLevel;
+	protected void Start(){
 
-	private bool IsCastingFireBallStarted;
-
-	private FireBall currentFireBall;
-
-
-
-
-	// Use this for initialization
-	void Start () {
-
-		handController = GetComponent<HandController> ();
-
+		base.Start ();
 
 	}
 
-	bool IsGestureInFireBallBegin(HandModel hand){
+	bool IsReadyToCastFireBall(HandModel hand){
 
-		return HandRecog.IsPalmFacingUpwards (hand, palmFacingUpAngle) && HandRecog.IsHandClenching (hand, clenchingAngle) && hand.GetLeapHand().Confidence >= confidenceLevel;
+		return HandRecog.IsPalmFacingUpwards (hand, palmFacingUpAngle) && HandRecog.IsHandClenchingStrict (hand, clenchingAngle) && hand.GetLeapHand().Confidence >= confidenceLevel;
 
 	}
 
@@ -49,9 +38,11 @@ public class MageFireHandController : MonoBehaviour {
 
 	void CastFireBall(HandModel hand){
 		
-		if (!IsCastingFireBallStarted && hand.GetLeapHand().Confidence >= confidenceLevel) {
+		if (!IsCastingStarted && hand.GetLeapHand().Confidence >= confidenceLevel) {
 
-			IsCastingFireBallStarted = true;
+			spellControl.SpellCasting ();
+
+			IsCastingStarted = true;
 
 			currentFireBall = GameObject.Instantiate (fireBallPrefab, GetFireBallSpawnPosition (hand, fireBallSpawnLocation), hand.gameObject.transform.rotation) as FireBall;
 
@@ -63,11 +54,13 @@ public class MageFireHandController : MonoBehaviour {
 	void ReleaseFireBall(HandModel hand){
 
 
-		if (currentFireBall && IsCastingFireBallStarted && !HandRecog.IsHandClenching (hand, clenchingAngle) && hand.GetLeapHand().Confidence > confidenceLevel) {
+		if (currentFireBall && IsCastingStarted && !HandRecog.IsHandClenchingNonStrict (hand, clenchingAngle) && hand.GetLeapHand().Confidence > confidenceLevel) {
 
 			currentFireBall.Release (hand.GetPalmDirection (), 5.0f);
-			IsCastingFireBallStarted = false;
+			IsCastingStarted = false;
 			currentFireBall = null;
+
+			spellControl.ReleaseCastingControl ();
 		}
 
 
@@ -81,31 +74,30 @@ public class MageFireHandController : MonoBehaviour {
 			currentFireBall.transform.position = GetFireBallSpawnPosition (hand, fireBallSpawnLocation);
 			//currentFireBall.transform.rotation = transform.rotation;
 
-			if (IsCastingFireBallStarted && HandRecog.IsPalmFacingUpwards(hand,palmFacingUpAngle)) {
+			if (IsCastingStarted && HandRecog.IsPalmFacingUpwards(hand,palmFacingUpAngle)) {
 
 				currentFireBall.Grow (Time.deltaTime);
 			}
 		}
 			
-
 	}
+
+
 		
 	// Update is called once per frame
-	void Update () {
+	protected void Update () {
 
 
 		HandModel[] hands = handController.GetAllGraphicsHands ();
-
 		HandModel rightHand = HandRecog.FindFirstRightHand (hands);
 		HandModel leftHand = HandRecog.FindFirstLeftHand (hands);
 
 
-		if (rightHand) {
+		if (rightHand ) {
 
-			if (IsGestureInFireBallBegin (rightHand)) {
-
+			if (IsReadyToCastFireBall (rightHand)) {
+				
 				CastFireBall (rightHand);
-				//Debug.Log ("aaaa");
 
 			} else {
 
@@ -116,10 +108,16 @@ public class MageFireHandController : MonoBehaviour {
 		
 		} else if (leftHand) {
 
-			if (IsGestureInFireBallBegin (leftHand)) {
+			if (IsReadyToCastFireBall (leftHand)) {
 
-				//Debug.Log ("bbbb");
+				CastFireBall (leftHand);
+
+			} else {
+
+				ReleaseFireBall (leftHand);
 			}
+
+			UpdateFireBall (leftHand);
 		}
 			
 	

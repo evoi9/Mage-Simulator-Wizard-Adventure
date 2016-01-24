@@ -58,6 +58,13 @@ public class DebugHandController : MonoBehaviour {
 		HandModel rightHand = HandRecog.FindFirstRightHand (hands);
 		HandModel leftHand = HandRecog.FindFirstLeftHand (hands);
 
+
+		if (rightHand && leftHand) {
+
+			//float angle = HandRecog.AngleBetweenPalmsNormals (leftHand, rightHand, transform.forward);
+			//Debug.Log(angle);
+		}
+
 		if (rightHand) {
 			//float angle = HandRecog.AngleBetweenFingerTipsHorizontal (rightHand, 1, 2);
 			//Debug.Log ("RightHand: " + angle);
@@ -65,15 +72,15 @@ public class DebugHandController : MonoBehaviour {
 			//bool result = HandRecog.IsPalmFacingUpwards(rightHand,15);
 			//Debug.Log ("RightHand: " + result);
 
-			float theta = 20.0f;
-			//float angle = 0.0f;
-			bool a = HandRecog.IsIndexFingerTipBent (rightHand, theta);
-			bool b = HandRecog.IsMiddleFingerTipBent (rightHand, theta);
-			//Debug.Log ("Middle Finger Bent: " + b );
-			bool c = HandRecog.IsRingFingerTipBent (rightHand, theta);
-			bool d = HandRecog.IsLittleFingerTipBent (rightHand, theta);
-
-			bool t = HandRecog.IsThumbTipBent (rightHand, theta);
+//			float theta = 20.0f;
+//			//float angle = 0.0f;
+//			bool a = HandRecog.IsIndexFingerTipBent (rightHand, theta);
+//			bool b = HandRecog.IsMiddleFingerTipBent (rightHand, theta);
+//			//Debug.Log ("Middle Finger Bent: " + b );
+//			bool c = HandRecog.IsRingFingerTipBent (rightHand, theta);
+//			bool d = HandRecog.IsLittleFingerTipBent (rightHand, theta);
+//
+//			bool t = HandRecog.IsThumbTipBent (rightHand, theta);
 			//Debug.Log ("Thumb Bent: " + t);
 			//Debug.Log ("Thumb: " + t+ ", Index Finger: " + a + ", Middle Finger: " + b + ", Ring Finger: " + c );
 			//Debug.Log ("Thumb: " + t+ ", Index Finger: " + a + ", Middle Finger: " + b + ", Ring Finger: " + c + ", Little Finger: " + d);
