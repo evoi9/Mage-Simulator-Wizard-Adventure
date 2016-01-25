@@ -8,15 +8,18 @@ The prequel of this prototype is called **Mage Simulator** which can be found he
 
 # Credit
 
-**Lead designer & programmer **
+**Lead designer & programmer**
+
 1.Zhongshi Xi
 
-**Assisstant desginer & programmer **
+**Assisstant desginer & programmer**
+
 1.Alfred Lam
 2.Daniel Kolo
 3.Dylan Park
 
 # System Requirement
+
 1. Windows 7 and above.
 2. Leap Motion controller, Leap motion SDK v2.3 above ( https://developer.leapmotion.com/downloads).
 
@@ -25,10 +28,12 @@ The prequel of this prototype is called **Mage Simulator** which can be found he
 
 
 # Game Control & Play.
+
 1. When game starts, you will see a monster coming towards you, but do not worry, it does no harm just looks scary.
 Your goal is try to cast spells to beat it. Press "R" to reset the game.
 
 # Cast fire ball
+
 1. Place either left or right hand in the interactive box of leap motion controller ( 15cm above the leap motion surface) until you can 
 see the hand in the game world.
 2. Rotate the hand unitl its palm faces upwards. You can see a small fire ball starts to appear.
@@ -37,6 +42,7 @@ see the hand in the game world.
 5. Release the clench and strech all your fingers hard ( make them straight) to shoot the fire ball.
 
 # Cast lighting bolt
+
 1.Place both left and right hand in the interactive box of leap motion controller ( 15cm above the leap motion surface) until you can 
 see both of hands in the game world.
 2. Rotate both hands until their palms facing each other and clench both hands ( **make sure all your fingers are bent **). You can see a blue light bolt between palms.
