@@ -10,13 +10,13 @@ The prequel of this prototype is called **Mage Simulator** which can be found he
 
 **Lead designer & programmer**
 
-1.Zhongshi Xi
+1. Zhongshi Xi
 
 **Assisstant desginer & programmer**
 
-1.Alfred Lam
-2.Daniel Kolo
-3.Dylan Park
+1. Alfred Lam
+2. Daniel Kolo
+3. Dylan Park
 
 # System Requirement
 
