@@ -43,7 +43,7 @@ see the hand in the game world.
 
 # Cast lighting bolt
 
-1.Place both left and right hand in the interactive box of leap motion controller ( 15cm above the leap motion surface) until you can 
+1. Place both left and right hand in the interactive box of leap motion controller ( 15cm above the leap motion surface) until you can 
 see both of hands in the game world.
 2. Rotate both hands until their palms facing each other and clench both hands ( **make sure all your fingers are bent **). You can see a blue light bolt between palms.
 3. Bring both of hands close or away from each other can reduce or increase the length of the lighting bolt.
